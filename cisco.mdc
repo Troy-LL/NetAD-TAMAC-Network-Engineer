@@ -1,0 +1,105 @@
+---
+description: TAMAC Packet Tracer capstone — source of truth index. Read this first; details live in docs/design/.
+globs: "**/*"
+alwaysApply: true
+---
+
+# TAMAC Inc. — Source of Truth
+
+> **Capstone:** Secure, highly available enterprise network in Cisco Packet Tracer  
+> **Company:** TAMAC Inc. (e-commerce aggregator) · **Employees:** 200–250 · **Platform:** Packet Tracer
+
+---
+
+## Hard rules (always enforce)
+
+1. **No Procurement department** — never VLAN 60, `192.168.60.0/26`, or Procurement ports.
+2. **Eight departments:** Executive, IT, Operations, Finance, Customer Service, Marketing, HR, Guest.
+3. **Built reality wins** — if design docs conflict with [docs/PROGRESS.md](docs/PROGRESS.md) or [docs/logs/](docs/logs/), follow what we actually configured.
+4. **Log major milestones** — update PROGRESS.md + add a file under `docs/logs/`.
+
+---
+
+## Document map — read only what you need
+
+| When you need… | Open |
+|---|---|
+| **Onboarding for teammates (full context)** | [docs/GROUP-REFERENCE.md](docs/GROUP-REFERENCE.md) |
+| **What's done / what's next** | [docs/PROGRESS.md](docs/PROGRESS.md) |
+| **Commands & verified output from a session** | [docs/logs/](docs/logs/) (latest `NN-*.md`) |
+| **Company, topology, hardware, floor plan** | [docs/design/overview.md](docs/design/overview.md) |
+| **VLANs, subnets, static IPs** | [docs/design/vlans-and-ip.md](docs/design/vlans-and-ip.md) |
+| **Routing, SVIs, DHCP** | [docs/design/routing-dhcp.md](docs/design/routing-dhcp.md) |
+| **ACLs, SSH, port security, DHCP snooping** | [docs/design/security.md](docs/design/security.md) |
+| **Guest network** | [docs/design/guest-network.md](docs/design/guest-network.md) |
+| **Corporate staff Wi‑Fi** | [docs/design/corporate-wifi.md](docs/design/corporate-wifi.md) |
+| **PCs, laptops, AP port map** | [docs/design/end-devices.md](docs/design/end-devices.md) |
+| **EtherChannel + Rapid STP** | [docs/design/high-availability.md](docs/design/high-availability.md) |
+| **DNS server** | [docs/design/dns.md](docs/design/dns.md) |
+| **Cables, ports, IDF layouts** | [docs/design/ports-and-cabling.md](docs/design/ports-and-cabling.md) |
+| **PT tips, NAT, defense checklist** | [docs/design/packet-tracer-guide.md](docs/design/packet-tracer-guide.md) |
+
+---
+
+## Quick reference
+
+### Topology
+
+```
+[ ISP Cloud ] --Serial-- [ 2911 Edge Router ]
+                              | Gi0/0
+                         [ 3560 CORE-SW ]-- Fa0/1 -- [ DNS-SVR ]
+                           /  |  |  \
+                      IDF   IDF  IDF  IDF
+                      1-A  1-B  2-A  2-B
+```
+
+### Departments → VLAN
+
+| Dept | VLAN | Gateway |
+|---|---|---|
+| Executive | 10 | 192.168.10.1 |
+| Finance | 20 | 192.168.20.1 |
+| Operations | 30 | 192.168.30.1 |
+| Customer Service | 40 | 192.168.40.1 |
+| IT | 50 | 192.168.50.1 |
+| HR | 70 | 192.168.70.1 |
+| Marketing | 80 | 192.168.80.1 |
+| Guest | 90 | 192.168.90.1 |
+| Servers | 100 | 192.168.100.1 |
+| Management | 200 | 192.168.200.1 |
+
+### Implemented key IPs (Packet Tracer)
+
+| Device | IP | Notes |
+|---|---|---|
+| Core SVI (MGMT) | 192.168.200.1/28 | Default gw for mgmt VLAN |
+| Edge Router LAN | **192.168.200.14/28** | On Gi0/0; core Fa0/8 access VLAN 200 |
+| DNS-SVR | 192.168.100.2/28 | Core Fa0/1 access VLAN 100 |
+| Edge Router WAN | 10.0.0.2/30 | Serial to ISP |
+
+> Router uses `.14` not `.254` — `/28` only allows `.1`–`.14`.
+
+### Core switch ports (3560-24PS — only 2× Gigabit)
+
+| Core port | Connects to |
+|---|---|
+| Fa0/8 | Edge Router Gi0/0 |
+| Fa0/1 | DNS-SVR |
+| Gi0/1–2 | IDF 1-A (Po1) |
+| Fa0/2–3 | IDF 1-B (Po2) |
+| Fa0/4–5 | IDF 2-A (Po3) |
+| Fa0/6–7 | IDF 2-B (Po4) |
+
+### Progress
+
+**~100%** — see [docs/PROGRESS.md](docs/PROGRESS.md) · Onboarding: [docs/GROUP-REFERENCE.md](docs/GROUP-REFERENCE.md)
+
+---
+
+## Agent workflow
+
+1. Read **this file** for alignment.
+2. Read **PROGRESS.md** + latest **logs/** before suggesting next steps.
+3. Pull detail from **one** `docs/design/*.md` file — don't load everything.
+4. After a major milestone or successful user output → update PROGRESS + new log entry.
