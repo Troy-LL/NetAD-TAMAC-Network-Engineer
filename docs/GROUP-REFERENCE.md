@@ -31,7 +31,7 @@ NetAD/
 ├── docs/
 │   ├── PROGRESS.md        ← What's done / deviations / test results
 │   ├── GROUP-REFERENCE.md ← This file (onboarding for teammates)
-│   ├── screenshots/defense/ ← Defense screenshots (saved)
+│   ├── deliverables/      ← Capstone submission package (5 deliverables)
 │   ├── design/            ← Topic docs (VLANs, security, ports, etc.)
 │   └── logs/              ← Session-by-session commands + verified output
 ```
@@ -119,8 +119,16 @@ Router connects to Core **Fa0/8** (trunk VLANs 90 + 200). DNS connects to Core *
 
 | SSID | VLAN | Who uses it |
 |---|---|---|
-| `TAMAC-Corp` | Dept VLAN (10, 20, 30, etc.) | Staff laptops — WPA2-PSK |
+| `TAMAC-Corp-exec` | 10 | Executive staff laptops — WPA2-PSK |
+| `TAMAC-Corp-fin` | 20 | Finance staff laptops |
+| `TAMAC-Corp-ops` | 30 | Operations staff laptops |
+| `TAMAC-Corp-cs` | 40 | Customer Service staff laptops |
+| `TAMAC-Corp-it` | 50 | IT staff laptops |
+| `TAMAC-Corp-hr` | 70 | HR staff laptops |
+| `TAMAC-Corp-mark` | 80 | Marketing staff laptops |
 | `TAMAC-Guest` | 90 | Guest laptop only — lobby AP on IDF 1-A Fa0/17 |
+
+> Corporate Wi‑Fi uses **department-specific SSIDs** so each device auto-joins the right VLAN. All corporate SSIDs share passphrase `TAMACstaff2024!`.
 
 **Guest laptop must show `192.168.90.x` gateway `192.168.90.1`.** If it gets a dept IP, it's on the wrong SSID.
 
@@ -237,15 +245,38 @@ Editing an existing ACL **appends** new lines at the bottom. Always `no ip acces
 
 ## 12. Defense screenshots (saved)
 
-Screenshots from final verification are in [`screenshots/defense/`](screenshots/defense/):
+Screenshots from final verification are in [deliverables/03-screenshots/](deliverables/03-screenshots/). Full index: [deliverables/README.md](deliverables/README.md).
+
+### Connectivity ([03-screenshots/02-connectivity/](deliverables/03-screenshots/02-connectivity/))
 
 | File | What it proves |
 |---|---|
-| [01-core-dhcp-snooping.png](screenshots/defense/01-core-dhcp-snooping.png) | DHCP snooping enabled on CORE-SW; 10 trusted uplink/router/DNS ports |
-| [02-idf1a-port-security.png](screenshots/defense/02-idf1a-port-security.png) | Port security on IDF 1-A Fa0/1–19 (max 1, shutdown violation) |
-| [03-it-ssh-idf2b.png](screenshots/defense/03-it-ssh-idf2b.png) | SSH from IT PC to IDF 2-B (`192.168.200.5`) works |
-| [04-guest-isolation.png](screenshots/defense/04-guest-isolation.png) | Guest blocked from internal (`192.168.10.1`, `192.168.100.2`) — replies from `192.168.90.1` unreachable |
-| [05-it-ping-dns.png](screenshots/defense/05-it-ping-dns.png) | IT PC reaches DNS `192.168.100.2` (4/4) |
+| [01-exec-pc-dhcp.png](deliverables/03-screenshots/02-connectivity/01-exec-pc-dhcp.png) | Executive PC DHCP on VLAN 10 |
+| [02-exec-ping-dns.png](deliverables/03-screenshots/02-connectivity/02-exec-ping-dns.png) | Staff reaches DNS `192.168.100.2` |
+| [03-exec-ping-finance-intervlan.png](deliverables/03-screenshots/02-connectivity/03-exec-ping-finance-intervlan.png) | Inter-VLAN routing works |
+| [04-exec-ping-internet.png](deliverables/03-screenshots/02-connectivity/04-exec-ping-internet.png) | Staff internet via NAT |
+
+### Guest ([03-screenshots/03-guest/](deliverables/03-screenshots/03-guest/))
+
+| File | What it proves |
+|---|---|
+| [01-guest-laptop-dhcp.png](deliverables/03-screenshots/03-guest/01-guest-laptop-dhcp.png) | Guest DHCP on VLAN 90 |
+| [02-guest-isolation-blocked.png](deliverables/03-screenshots/03-guest/02-guest-isolation-blocked.png) | Guest blocked from internal subnets |
+| [03-guest-ping-internet.png](deliverables/03-screenshots/03-guest/03-guest-ping-internet.png) | Guest internet works |
+
+### Security ([03-screenshots/04-security/](deliverables/03-screenshots/04-security/))
+
+| File | What it proves |
+|---|---|
+| [01-it-ssh-core-sw.png](deliverables/03-screenshots/04-security/01-it-ssh-core-sw.png) | SSH from IT PC to CORE-SW |
+| [02-it-ssh-idf2b.png](deliverables/03-screenshots/04-security/02-it-ssh-idf2b.png) | SSH from IT PC to IDF 2-B (`192.168.200.5`) |
+| [03-idf1a-port-security.png](deliverables/03-screenshots/04-security/03-idf1a-port-security.png) | Port security on IDF 1-A access ports |
+
+### High availability ([03-screenshots/05-ha/](deliverables/03-screenshots/05-ha/))
+
+| File | What it proves |
+|---|---|
+| [01-core-etherchannel-summary.png](deliverables/03-screenshots/05-ha/01-core-etherchannel-summary.png) | EtherChannel Po1–Po4 up on core |
 
 ### Defense test checklist
 
@@ -260,7 +291,7 @@ Screenshots from final verification are in [`screenshots/defense/`](screenshots/
 | 7 | Guest internet | Guest laptop | `ping 10.0.0.1` | OK |
 | 8 | Port security | Swap PC on secured port | — | Port err-disabled |
 | 9 | EtherChannel HA | Unplug one uplink cable | PCs still ping | OK |
-| 10 | DHCP snooping | CORE-SW | `show ip dhcp snooping` | Enabled, trusts on uplinks |
+| 10 | DHCP snooping | CORE-SW | `show ip dhcp snooping` | Configured; may be disabled in PT — see [log 09](logs/09-dhcp-snooping-pt-workaround.md) |
 
 ---
 
@@ -276,6 +307,7 @@ Screenshots from final verification are in [`screenshots/defense/`](screenshots/
 | 06 | [06-guest-acl-fix.md](logs/06-guest-acl-fix.md) | Why guest isolation failed on core SVI |
 | 07 | [07-guest-acl-router-fix.md](logs/07-guest-acl-router-fix.md) | **Final guest fix** — router subinterface approach |
 | 08 | [08-security-hardening.md](logs/08-security-hardening.md) | SSH, SERVER_ACCESS, port security, DHCP snooping |
+| 09 | [09-dhcp-snooping-pt-workaround.md](logs/09-dhcp-snooping-pt-workaround.md) | DHCP snooping PT workaround; deliverables capture |
 
 ---
 
@@ -307,7 +339,7 @@ Screenshots from final verification are in [`screenshots/defense/`](screenshots/
 | DHCP snooping trust fails on Po | PT limitation | Trust Fa0/23–24 (IDF) or Gi0/1–2 + Fa0/2–7 (core) |
 | Port shut down (red) | Port security violation | `shutdown` / `no shutdown` on port; reconnect original device |
 | Core can't reach DNS after ACL | Deny before same-subnet permit | Recreate SERVER_ACCESS with 100.0/28 permit **first** |
-| No DHCP on PCs after snooping | Uplink not trusted | Add trust on physical uplink ports |
+| No DHCP on PCs after snooping | Option 82 on untrusted Po | `no ip dhcp snooping` on core + IDFs — [log 09](logs/09-dhcp-snooping-pt-workaround.md) |
 | Router LAN .254 doesn't work | /28 only allows .1–.14 | Use **192.168.200.14** |
 
 ---

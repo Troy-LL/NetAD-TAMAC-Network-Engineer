@@ -38,6 +38,7 @@ alwaysApply: true
 | **DNS server** | [docs/design/dns.md](docs/design/dns.md) |
 | **Cables, ports, IDF layouts** | [docs/design/ports-and-cabling.md](docs/design/ports-and-cabling.md) |
 | **PT tips, NAT, defense checklist** | [docs/design/packet-tracer-guide.md](docs/design/packet-tracer-guide.md) |
+| **Capstone deliverables (submission)** | [docs/deliverables/README.md](docs/deliverables/README.md) |
 
 ---
 
@@ -46,8 +47,8 @@ alwaysApply: true
 ### Topology
 
 ```
-[ ISP Cloud ] --Serial-- [ 2911 Edge Router ]
-                              | Gi0/0
+[ ISP-Router ] --Serial-- [ 2911 Edge Router ]
+                              | Gi0/0 (trunk: 90, 200)
                          [ 3560 CORE-SW ]-- Fa0/1 -- [ DNS-SVR ]
                            /  |  |  \
                       IDF   IDF  IDF  IDF
@@ -65,7 +66,7 @@ alwaysApply: true
 | IT | 50 | 192.168.50.1 |
 | HR | 70 | 192.168.70.1 |
 | Marketing | 80 | 192.168.80.1 |
-| Guest | 90 | 192.168.90.1 |
+| Guest | 90 | **192.168.90.1** (Edge Router Gi0/0.90) |
 | Servers | 100 | 192.168.100.1 |
 | Management | 200 | 192.168.200.1 |
 
@@ -74,7 +75,8 @@ alwaysApply: true
 | Device | IP | Notes |
 |---|---|---|
 | Core SVI (MGMT) | 192.168.200.1/28 | Default gw for mgmt VLAN |
-| Edge Router LAN | **192.168.200.14/28** | On Gi0/0; core Fa0/8 access VLAN 200 |
+| Edge Router LAN | **192.168.200.14/28** | Gi0/0.200 subif; core Fa0/8 **trunk** 90,200 |
+| Guest gateway | **192.168.90.1/25** | Gi0/0.90 subif; GUEST_RESTRICT ACL |
 | DNS-SVR | 192.168.100.2/28 | Core Fa0/1 access VLAN 100 |
 | Edge Router WAN | 10.0.0.2/30 | Serial to ISP |
 
@@ -84,12 +86,27 @@ alwaysApply: true
 
 | Core port | Connects to |
 |---|---|
-| Fa0/8 | Edge Router Gi0/0 |
+| Fa0/8 | Edge Router Gi0/0 (trunk VLANs 90, 200) |
 | Fa0/1 | DNS-SVR |
 | Gi0/1–2 | IDF 1-A (Po1) |
 | Fa0/2–3 | IDF 1-B (Po2) |
 | Fa0/4–5 | IDF 2-A (Po3) |
 | Fa0/6–7 | IDF 2-B (Po4) |
+
+### Wi‑Fi SSIDs
+
+| SSID | VLAN |
+|---|---|
+| `TAMAC-Corp-exec` | 10 |
+| `TAMAC-Corp-fin` | 20 |
+| `TAMAC-Corp-ops` | 30 |
+| `TAMAC-Corp-cs` | 40 |
+| `TAMAC-Corp-it` | 50 |
+| `TAMAC-Corp-hr` | 70 |
+| `TAMAC-Corp-mark` | 80 |
+| `TAMAC-Guest` | 90 |
+
+Corporate passphrase: `TAMACstaff2024!` · Guest: `Guest123!`
 
 ### Progress
 

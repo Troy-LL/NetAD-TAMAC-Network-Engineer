@@ -10,7 +10,7 @@
 4. Access ports on IDFs
 5. Router WAN + NAT
 6. PCs → DHCP test
-7. Corporate APs (`TAMAC-Corp`) + staff laptops — see [end-devices.md](end-devices.md)
+7. Corporate APs (`TAMAC-Corp-<dept>`) + staff laptops — see [end-devices.md](end-devices.md)
 
 ## CLI tips
 
@@ -41,7 +41,7 @@ interface GigabitEthernet0/0
 - [ ] Ping DNS 192.168.100.2
 - [ ] Ping internet from internal PC
 - [ ] Guest → internet OK; guest → internal blocked
-- [ ] Staff laptop on `TAMAC-Corp` → DHCP + ping DNS + inter-VLAN OK
+- [ ] Staff laptop on `TAMAC-Corp-<dept>` → DHCP + ping DNS + inter-VLAN OK
 - [ ] Staff laptop ≠ guest subnet (50.x vs 90.x)
 - [ ] Extra PCs per dept get DHCP on correct VLAN
 - [ ] SSH to core and IDF from IT PC

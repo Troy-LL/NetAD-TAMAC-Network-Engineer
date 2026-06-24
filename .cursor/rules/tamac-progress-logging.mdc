@@ -11,7 +11,8 @@ alwaysApply: true
 1. **[cisco.mdc](../cisco.mdc)** — source of truth index, hard rules, quick reference
 2. **[docs/PROGRESS.md](../docs/PROGRESS.md)** — what's done / what's next
 3. **Latest [docs/logs/](../docs/logs/)** — actual commands and verified output
-4. **One [docs/design/](../docs/design/) file** — only the topic needed (routing, ports, security, etc.)
+4. **[docs/deliverables/](../docs/deliverables/)** — capstone submission package (when reviewing exports)
+5. **One [docs/design/](../docs/design/) file** — only the topic needed (routing, ports, security, etc.)
 
 ## After major milestones
 

@@ -14,7 +14,8 @@ A secure, highly available enterprise LAN for **TAMAC Inc.**, a fictional e-comm
 | See what's done and what differs from design | [docs/PROGRESS.md](docs/PROGRESS.md) |
 | Find commands and CLI output from a build session | [docs/logs/](docs/logs/) (read `01` through `08` in order) |
 | Look up VLANs, ports, ACLs, or Wi‑Fi details | [docs/design/](docs/design/) (one topic file at a time) |
-| Open the live network | Your Packet Tracer `.pkt` file (saved locally — not in this repo) |
+| Submit or review capstone deliverables | [docs/deliverables/](docs/deliverables/) |
+| Open the live network | `Final Proj.pkt` in the repo root (Packet Tracer) |
 
 **Hard rule:** TAMAC has **no Procurement department**. Never use VLAN 60, `192.168.60.0/26`, or Procurement ports. If design docs conflict with [PROGRESS.md](docs/PROGRESS.md) or [logs/](docs/logs/), **trust what was actually built and logged**.
 
@@ -32,7 +33,7 @@ NetAD/
     ├── GROUP-REFERENCE.md    ← Full teammate onboarding (credentials, quirks, defense)
     ├── design/               ← Topic deep-dives (VLANs, routing, security, ports, etc.)
     ├── logs/                 ← Session logs with real commands + verified output
-    └── screenshots/defense/  ← Defense/presentation screenshots (when saved)
+    └── deliverables/         ← Capstone submission package (diagrams, configs, screenshots, tables)
 ```
 
 ### What each layer is for
@@ -44,6 +45,21 @@ NetAD/
 | `docs/GROUP-REFERENCE.md` | Longer onboarding doc: credentials, Packet Tracer quirks, troubleshooting, defense checklist. |
 | `docs/design/*.md` | Original design broken into topics. Use when you need detail on one area. |
 | `docs/logs/NN-*.md` | Chronological build journal. **Built reality wins** over design when they disagree. |
+| `docs/deliverables/` | Five capstone deliverables — start at [deliverables/README.md](docs/deliverables/README.md). |
+
+---
+
+## Capstone deliverables
+
+All submission artifacts live under [docs/deliverables/](docs/deliverables/):
+
+| # | Deliverable | Location |
+|---|---|---|
+| 1 | Network diagram | [01-network-diagram/](docs/deliverables/01-network-diagram/) |
+| 2 | Device configurations | [02-device-configs/](docs/deliverables/02-device-configs/) |
+| 3 | Screenshots (proof tests) | [03-screenshots/](docs/deliverables/03-screenshots/) |
+| 4 | IP addressing tables | [04-ip-addressing.md](docs/deliverables/04-ip-addressing.md) |
+| 5 | VLAN tables | [05-vlan-table.md](docs/deliverables/05-vlan-table.md) |
 
 ---
 
@@ -129,7 +145,7 @@ The 3560-24PS has only **two** Gigabit ports (`Gi0/1–2`). Other uplinks use Fa
 
 ### How traffic moves
 
-**Staff PC or laptop (wired or `TAMAC-Corp` Wi‑Fi)**
+**Staff PC or laptop (wired or per-dept `TAMAC-Corp-<dept>` Wi‑Fi)**
 
 1. Device gets an IP via DHCP from the core (gateway = department SVI, DNS = `192.168.100.2`).
 2. Same-VLAN traffic stays on the local IDF switch.
@@ -161,7 +177,7 @@ Each IDF connects to the core with **two cables** in an **LACP EtherChannel** (P
 | **SERVER_ACCESS ACL** | CORE-SW (Vlan100) | Permits dept VLANs → DNS; denies others |
 | **SSH v2** | Core, router, all 4 IDFs | Encrypted management; telnet disabled |
 | **Port security** | IDF access ports | Max 1 MAC, sticky learning, violation shutdown |
-| **DHCP snooping** | Core + all IDFs | Trust uplinks only; blocks rogue DHCP on access ports |
+| **DHCP snooping** | Core + all IDFs (config) | Designed on uplinks; may be **disabled in PT** for DHCP to work — see [log 09](docs/logs/09-dhcp-snooping-pt-workaround.md) |
 | **EtherChannel + RSTP** | Core ↔ each IDF | Redundant uplinks with loop prevention |
 
 Lab credentials (Packet Tracer only): `admin` / `TamacAdmin2024!` — see [GROUP-REFERENCE.md](docs/GROUP-REFERENCE.md) for SSH targets and the IDF 2-B password exception.
@@ -174,10 +190,16 @@ Full ACL definitions, port ranges, and hardening steps: [docs/design/security.md
 
 | SSID | VLAN | Users |
 |---|---|---|
-| `TAMAC-Corp` | Department VLAN (10, 20, 30, …) | Staff laptops — WPA2-PSK |
+| `TAMAC-Corp-exec` | 10 | Executive staff laptops — WPA2-PSK |
+| `TAMAC-Corp-fin` | 20 | Finance staff laptops |
+| `TAMAC-Corp-ops` | 30 | Operations staff laptops |
+| `TAMAC-Corp-cs` | 40 | Customer Service staff laptops |
+| `TAMAC-Corp-it` | 50 | IT staff laptops |
+| `TAMAC-Corp-hr` | 70 | HR staff laptops |
+| `TAMAC-Corp-mark` | 80 | Marketing staff laptops |
 | `TAMAC-Guest` | 90 | Guest laptop — lobby AP on IDF 1-A |
 
-Seven corporate APs (one per department) plus one guest AP. Port assignments: [docs/design/end-devices.md](docs/design/end-devices.md) and [docs/design/corporate-wifi.md](docs/design/corporate-wifi.md).
+Seven corporate APs (one per department, each with a **department-specific SSID** so devices auto-join the correct VLAN) plus one guest AP. All corporate SSIDs share the passphrase `TAMACstaff2024!`. Port assignments: [docs/design/end-devices.md](docs/design/end-devices.md) and [docs/design/corporate-wifi.md](docs/design/corporate-wifi.md).
 
 ---
 
@@ -193,7 +215,7 @@ These are intentional — based on Packet Tracer limits and verified during the 
 | Guest gateway | Core Vlan90 SVI | **Edge Router Gi0/0.90** (core Vlan90 shutdown) |
 | Guest ACL | Core Vlan90 inbound | **Edge Router Gi0/0.90** (PT won't bind ACL on 3560 SVI) |
 | ISP simulation | Cloud-PT | **ISP-Router (2911)** with HWIC-2T serial |
-| DHCP snooping trust | Port-channel interfaces | **Physical uplink ports** only (PT limitation) |
+| DHCP snooping trust | Port-channel interfaces | **Physical uplink ports** only; may need `no ip dhcp snooping` in PT ([log 09](docs/logs/09-dhcp-snooping-pt-workaround.md)) |
 
 Full deviation table: [docs/PROGRESS.md](docs/PROGRESS.md#implemented-deviations-from-design-doc).
 
@@ -244,6 +266,7 @@ Read in order to follow how the network was built:
 | 06 | [06-guest-acl-fix.md](docs/logs/06-guest-acl-fix.md) | Guest isolation troubleshooting on core |
 | 07 | [07-guest-acl-router-fix.md](docs/logs/07-guest-acl-router-fix.md) | **Final guest fix** — router subinterface |
 | 08 | [08-security-hardening.md](docs/logs/08-security-hardening.md) | SSH, port security, DHCP snooping, SERVER_ACCESS |
+| 09 | [09-dhcp-snooping-pt-workaround.md](docs/logs/09-dhcp-snooping-pt-workaround.md) | DHCP snooping disabled for PT compatibility |
 
 ---
 

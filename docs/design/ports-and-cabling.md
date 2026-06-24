@@ -81,5 +81,5 @@ Full table: [end-devices.md](end-devices.md) · Staff Wi‑Fi: [corporate-wifi.m
 |---|---|---|
 | PC-PT | Fa0 → IDF access port | DHCP |
 | AP-PT | **Port 0** → IDF access port | Wi‑Fi on **Port 1** (Config) |
-| Staff laptop | Wireless → `TAMAC-Corp` | WPC300N module required |
+| Staff laptop | Wireless → `TAMAC-Corp-<dept>` | WPC300N module required |
 | Guest laptop | Wireless → `TAMAC-Guest` | VLAN 90 only |

@@ -58,13 +58,13 @@ Extra PCs and staff Wi‑Fi use **existing VLANs and DHCP pools**. Do not add VL
 | AP | Location | IDF | Port | VLAN | SSID | Passphrase |
 |---|---|---|---|---|---|---|
 | AP-Guest | Lobby F1 | 1-A | Fa0/17 | 90 | TAMAC-Guest | Guest123! |
-| AP-EXEC | Executive F1 | 1-A | Fa0/18 | 10 | TAMAC-Corp | TAMACstaff2024! |
-| AP-FIN | Finance F1 | 1-A | Fa0/19 | 20 | TAMAC-Corp | TAMACstaff2024! |
-| AP-CS | Customer Service F1 | 1-B | Fa0/21 | 40 | TAMAC-Corp | TAMACstaff2024! |
-| AP-OPS | Operations F1 | 1-B | Fa0/22 | 30 | TAMAC-Corp | TAMACstaff2024! |
-| AP-IT | IT F2 | 2-A | Fa0/20 | 50 | TAMAC-Corp | TAMACstaff2024! |
-| AP-HR | HR F2 | 2-A | Fa0/21 | 70 | TAMAC-Corp | TAMACstaff2024! |
-| AP-MARK | Marketing F2 | 2-B | Fa0/16 | 80 | TAMAC-Corp | TAMACstaff2024! |
+| AP-EXEC | Executive F1 | 1-A | Fa0/18 | 10 | TAMAC-Corp-exec | TAMACstaff2024! |
+| AP-FIN | Finance F1 | 1-A | Fa0/19 | 20 | TAMAC-Corp-fin | TAMACstaff2024! |
+| AP-CS | Customer Service F1 | 1-B | Fa0/21 | 40 | TAMAC-Corp-cs | TAMACstaff2024! |
+| AP-OPS | Operations F1 | 1-B | Fa0/22 | 30 | TAMAC-Corp-ops | TAMACstaff2024! |
+| AP-IT | IT F2 | 2-A | Fa0/20 | 50 | TAMAC-Corp-it | TAMACstaff2024! |
+| AP-HR | HR F2 | 2-A | Fa0/21 | 70 | TAMAC-Corp-hr | TAMACstaff2024! |
+| AP-MARK | Marketing F2 | 2-B | Fa0/16 | 80 | TAMAC-Corp-mark | TAMACstaff2024! |
 
 Cable every AP: **Port 0** → IDF port. Configure Wi‑Fi on **Port 1** (Config tab).
 
@@ -73,9 +73,9 @@ Cable every AP: **Port 0** → IDF port. Configure Wi‑Fi on **Port 1** (Config
 | Label | Type | Location | SSID | Expected IP |
 |---|---|---|---|---|
 | Laptop-Guest | Guest | Lobby F1 | TAMAC-Guest | 192.168.90.x |
-| Laptop-Staff-IT | Staff | IT F2 | TAMAC-Corp | 192.168.50.x |
-| Laptop-Staff-CS | Staff | Customer Service F1 | TAMAC-Corp | 192.168.40.x |
-| Laptop-Staff-FIN | Staff | Finance F1 | TAMAC-Corp | 192.168.20.x |
+| Laptop-Staff-IT | Staff | IT F2 | TAMAC-Corp-it | 192.168.50.x |
+| Laptop-Staff-CS | Staff | Customer Service F1 | TAMAC-Corp-cs | 192.168.40.x |
+| Laptop-Staff-FIN | Staff | Finance F1 | TAMAC-Corp-fin | 192.168.20.x |
 
 All laptops: **Physical** → power off → **WPC300N** card → power on.
 
@@ -310,9 +310,11 @@ One **AP-PT** per department zone on the floor plan (or Logical canvas).
 
 ### Step 3 — Configure Port 1 on every corporate AP
 
+Each AP uses its **own department SSID** (see AP table above). Other settings are identical.
+
 | Setting | Value |
 |---|---|
-| SSID | TAMAC-Corp |
+| SSID | `TAMAC-Corp-<dept>` (e.g. `TAMAC-Corp-it`) |
 | Security | WPA2-PSK |
 | Passphrase | TAMACstaff2024! |
 | Encryption | AES |
@@ -322,7 +324,7 @@ One **AP-PT** per department zone on the floor plan (or Logical canvas).
 
 1. Place laptops in IT, Customer Service, Finance.
 2. Install **WPC300N**.
-3. **PC Wireless** → **TAMAC-Corp** → `TAMACstaff2024!`
+3. **PC Wireless** → join the matching department SSID (e.g. IT laptop → **TAMAC-Corp-it**) → `TAMACstaff2024!`
 
 ### Step 5 — Verify staff Wi‑Fi
 

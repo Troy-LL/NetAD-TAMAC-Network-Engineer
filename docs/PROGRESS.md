@@ -23,10 +23,10 @@
 | IDF 2-B | ✅ Done | Po4(SU), access ports configured |
 | Access Points | ✅ Done | Guest + 7 corporate APs (EXEC, FIN, CS, OPS, IT, HR, MARK) |
 | PCs / Laptops | ✅ Done | ~3 PCs/dept + STAFF-FIN, STAFF-CS, STAFF-IT + Guest laptop |
-| Corporate Wi‑Fi | ✅ Done | `TAMAC-Corp` on all dept VLANs — verified STAFF-FIN |
+| Corporate Wi‑Fi | ✅ Done | Per-dept SSIDs `TAMAC-Corp-<dept>` on each VLAN — verified STAFF-FIN |
 | SSH (6 devices) | ✅ Done | IDF-2B uses `Tamac2024`; see [08-security-hardening.md](logs/08-security-hardening.md) |
 | Port security (4 IDFs) | ✅ Done | Access ports only; uplinks excluded |
-| DHCP snooping | ✅ Done | Core: physical uplinks (not Po); IDFs: Fa0/23–24 |
+| DHCP snooping | ✅ Done (config) | Configured on core + IDFs; **disabled at runtime in PT** for DHCP — [log 09](logs/09-dhcp-snooping-pt-workaround.md) |
 | SERVER_ACCESS ACL | ✅ Done (functional) | ACL defined; PT may show Vlan100 inbound "not set" — tests pass |
 | End-to-end testing | ✅ Done | Guest isolation + staff Wi‑Fi + wired PCs verified |
 
@@ -56,7 +56,7 @@ These differ from `cisco.mdc` on purpose based on Packet Tracer limits and proje
 | Router → Core port | Core Fa0/8 access VLAN 200 | **Trunk** vlan 90,200 + Gi0/0.90 / Gi0/0.200 subifs |
 | SERVER_ACCESS ACL | Original deny blocked core↔DNS | Same-subnet permit first |
 | Router WAN module | — | **HWIC-2T** added on 2911 for Serial0/0/0 |
-| ISP simulation | Cloud-PT serial | **ISP-Router (2911)** — Cloud has no clock rate in PT |
+| DHCP snooping runtime | Configured + trusted uplinks | **`no ip dhcp snooping`** on core + IDFs for PT DHCP — see log 09 |
 
 ---
 
@@ -95,15 +95,30 @@ These differ from `cisco.mdc` on purpose based on Packet Tracer limits and proje
 | 06 | 2025-06-24 | [06-guest-acl-fix.md](logs/06-guest-acl-fix.md) | Guest ping 192.168.10.1 should fail — ACL/SSID troubleshooting |
 | 07 | 2025-06-24 | [07-guest-acl-router-fix.md](logs/07-guest-acl-router-fix.md) | Guest ACL on Edge Router — isolation verified |
 | 08 | 2025-06-24 | [08-security-hardening.md](logs/08-security-hardening.md) | SSH, port security, DHCP snooping, SERVER_ACCESS |
+| 09 | 2025-06-25 | [09-dhcp-snooping-pt-workaround.md](logs/09-dhcp-snooping-pt-workaround.md) | DHCP snooping disabled for PT; deliverables screenshots |
+
+---
+
+## Capstone deliverables
+
+All submission artifacts: [deliverables/README.md](deliverables/README.md)
+
+| # | Deliverable | Path |
+|---|---|---|
+| 1 | Network diagram | [deliverables/01-network-diagram/](deliverables/01-network-diagram/) |
+| 2 | Device configs | [deliverables/02-device-configs/](deliverables/02-device-configs/) |
+| 3 | Screenshots | [deliverables/03-screenshots/](deliverables/03-screenshots/) |
+| 4 | IP addressing | [deliverables/04-ip-addressing.md](deliverables/04-ip-addressing.md) |
+| 5 | VLAN tables | [deliverables/05-vlan-table.md](deliverables/05-vlan-table.md) |
 
 ---
 
 ## Next Steps
 
-1. **File → Save** your `.pkt` (if not already saved)
-2. Use defense screenshots in [screenshots/defense/](screenshots/defense/) for presentation
+1. **File → Save** your `.pkt` after any lab changes
+2. Use [deliverables/03-screenshots/](deliverables/03-screenshots/) for presentation proof
 3. Share [GROUP-REFERENCE.md](GROUP-REFERENCE.md) with groupmates for full context
-4. Optional demos: port-security violation, rogue DHCP, EtherChannel failover
+4. Optional demos: port-security violation, EtherChannel failover
 
 ---
 

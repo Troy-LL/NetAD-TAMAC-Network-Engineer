@@ -2,7 +2,7 @@
 
 [← Source of truth](../../cisco.mdc)
 
-TAMAC represents **200–250 employees** with **subnet sizing and port maps**, not one PC per person. Packet Tracer uses **representative wired PCs**, **corporate APs** (`TAMAC-Corp`), and **guest Wi‑Fi** (`TAMAC-Guest`).
+TAMAC represents **200–250 employees** with **subnet sizing and port maps**, not one PC per person. Packet Tracer uses **representative wired PCs**, **per-department corporate APs** (`TAMAC-Corp-<dept>`), and **guest Wi‑Fi** (`TAMAC-Guest`).
 
 ## Scale model
 
@@ -47,7 +47,7 @@ Cable **Copper Straight-Through** → PC `FastEthernet0` → IDF port. All PCs u
 | SSID | VLAN | Users | Doc |
 |---|---|---|---|
 | `TAMAC-Guest` | 90 | Visitors | [guest-network.md](guest-network.md) |
-| `TAMAC-Corp` | Per dept | Staff laptops | [corporate-wifi.md](corporate-wifi.md) |
+| `TAMAC-Corp-<dept>` | Per dept (10/20/30/40/50/70/80) | Staff laptops | [corporate-wifi.md](corporate-wifi.md) |
 
 ## Implementation guide
 

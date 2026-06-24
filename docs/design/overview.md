@@ -45,7 +45,7 @@
 | DNS | Server-PT | 1 | MDF |
 | APs | AP-PT | 7–8 | Per zone incl. Finance — [corporate-wifi.md](corporate-wifi.md) |
 | PCs | PC-PT | 2–3 per dept | IDF access ports — [end-devices.md](end-devices.md) |
-| Staff laptops | Laptop-PT | 1–2 demo | `TAMAC-Corp` — [corporate-wifi.md](corporate-wifi.md) |
+| Staff laptops | Laptop-PT | 1–2 demo | `TAMAC-Corp-<dept>` — [corporate-wifi.md](corporate-wifi.md) |
 | Guest laptops | Laptop-PT | 1–2 | Lobby · `TAMAC-Guest` |
 
 ## AP placement
@@ -53,10 +53,10 @@
 | AP | Location | SSID | VLAN |
 |---|---|---|---|
 | AP-1 | Lobby | TAMAC-Guest | 90 |
-| AP-2 | Executive | TAMAC-Corp | 10 |
-| AP-FIN | Finance | TAMAC-Corp | 20 |
-| AP-3 | Customer Service | TAMAC-Corp | 40 |
-| AP-4 | Operations | TAMAC-Corp | 30 |
-| AP-5 | IT | TAMAC-Corp | 50 |
-| AP-6 | HR | TAMAC-Corp | 70 |
-| AP-7 | Marketing | TAMAC-Corp | 80 |
+| AP-2 | Executive | TAMAC-Corp-exec | 10 |
+| AP-FIN | Finance | TAMAC-Corp-fin | 20 |
+| AP-3 | Customer Service | TAMAC-Corp-cs | 40 |
+| AP-4 | Operations | TAMAC-Corp-ops | 30 |
+| AP-5 | IT | TAMAC-Corp-it | 50 |
+| AP-6 | HR | TAMAC-Corp-hr | 70 |
+| AP-7 | Marketing | TAMAC-Corp-mark | 80 |
