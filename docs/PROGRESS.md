@@ -2,8 +2,8 @@
 
 > **Source of truth:** [`cisco.mdc`](../cisco.mdc) (index) · **Design details:** [`docs/design/`](design/) · **Session logs:** [`docs/logs/`](logs/)
 
-**Last updated:** 2025-06-25  
-**Overall progress:** ~100% (security hardening complete; optional demos remain)
+**Last updated:** 2025-06-29  
+**Overall progress:** ~100% (verification testing phases 1–6 captured)
 
 ---
 
@@ -25,7 +25,7 @@
 | PCs / Laptops | ✅ Done | ~3 PCs/dept + STAFF-FIN, STAFF-CS, STAFF-IT + Guest laptop |
 | Corporate Wi‑Fi | ✅ Done | Per-dept SSIDs `TAMAC-Corp-<dept>` on each VLAN — verified STAFF-FIN |
 | SSH (6 devices) | ✅ Done | IDF-2B uses `Tamac2024`; see [08-security-hardening.md](logs/08-security-hardening.md) |
-| Port security (4 IDFs) | ✅ Done | Access ports only; uplinks excluded |
+| Port security (4 IDFs) | ✅ Done | PC ports: max 1; **AP ports: max 10–50 + restrict** — [log 10](logs/10-ap-port-security-multi-client.md) |
 | DHCP snooping | ✅ Done (config) | Configured on core + IDFs; **disabled at runtime in PT** for DHCP — [log 09](logs/09-dhcp-snooping-pt-workaround.md) |
 | SERVER_ACCESS ACL | ✅ Done (functional) | ACL defined; PT may show Vlan100 inbound "not set" — tests pass |
 | End-to-end testing | ✅ Done | Guest isolation + staff Wi‑Fi + wired PCs verified |
@@ -57,6 +57,7 @@ These differ from `cisco.mdc` on purpose based on Packet Tracer limits and proje
 | SERVER_ACCESS ACL | Original deny blocked core↔DNS | Same-subnet permit first |
 | Router WAN module | — | **HWIC-2T** added on 2911 for Serial0/0/0 |
 | DHCP snooping runtime | Configured + trusted uplinks | **`no ip dhcp snooping`** on core + IDFs for PT DHCP — see log 09 |
+| AP port security | Same as wired PC ports | **Higher `maximum` on AP uplinks**; guest Fa0/17 = 50, staff APs = 10 — log 10 |
 
 ---
 
@@ -80,6 +81,8 @@ These differ from `cisco.mdc` on purpose based on Packet Tracer limits and proje
 | Staff FIN → inter-VLAN | STAFF-FIN | ping 192.168.10.1 | ✅ 4/4 |
 | Staff FIN → internet | STAFF-FIN | ping 10.0.0.1 | ✅ 4/4 |
 | Logical end-device topology | All IDFs | PCs + APs + laptops | ✅ Built |
+| Multi guest laptops on AP-GUEST | Guest laptops | DHCP + AP link stays up | ✅ After Fa0/17 max 50 — [log 10](logs/10-ap-port-security-multi-client.md) |
+| Staff laptop on dept AP | IT / Finance laptops | No AP err-disable | ✅ AP ports max 10 + restrict — log 10 |
 
 ---
 
@@ -96,6 +99,7 @@ These differ from `cisco.mdc` on purpose based on Packet Tracer limits and proje
 | 07 | 2025-06-24 | [07-guest-acl-router-fix.md](logs/07-guest-acl-router-fix.md) | Guest ACL on Edge Router — isolation verified |
 | 08 | 2025-06-24 | [08-security-hardening.md](logs/08-security-hardening.md) | SSH, port security, DHCP snooping, SERVER_ACCESS |
 | 09 | 2025-06-25 | [09-dhcp-snooping-pt-workaround.md](logs/09-dhcp-snooping-pt-workaround.md) | DHCP snooping disabled for PT; deliverables screenshots |
+| 10 | 2025-06-29 | [10-ap-port-security-multi-client.md](logs/10-ap-port-security-multi-client.md) | AP port-security max raised; guest + staff multi-laptop fix |
 
 ---
 
@@ -110,13 +114,15 @@ All submission artifacts: [deliverables/README.md](deliverables/README.md)
 | 3 | Screenshots | [deliverables/03-screenshots/](deliverables/03-screenshots/) |
 | 4 | IP addressing | [deliverables/04-ip-addressing.md](deliverables/04-ip-addressing.md) |
 | 5 | VLAN tables | [deliverables/05-vlan-table.md](deliverables/05-vlan-table.md) |
+| 6 | Verification testing (sequential) | [deliverables/06-verification-testing/](deliverables/06-verification-testing/) | Phases 1–6 screenshots complete |
 
 ---
 
 ## Next Steps
 
 1. **File → Save** your `.pkt` after any lab changes
-2. Use [deliverables/03-screenshots/](deliverables/03-screenshots/) for presentation proof
+2. Run [deliverables/06-verification-testing/](deliverables/06-verification-testing/) phases 1→6 in order; save screenshots per phase folder — **phases 1–6 complete**
+3. Legacy proof shots also in [deliverables/03-screenshots/](deliverables/03-screenshots/)
 3. Share [GROUP-REFERENCE.md](GROUP-REFERENCE.md) with groupmates for full context
 4. Optional demos: port-security violation, EtherChannel failover
 

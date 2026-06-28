@@ -229,6 +229,7 @@ These caused real bugs during the build:
 2. **Port-channel won't take DHCP snooping trust** — trust physical member ports instead.
 3. **ACL line order matters** — editing appends lines; delete and recreate ACLs in correct order.
 4. **SSH password special characters** — IDF 2-B uses `Tamac2024` instead of `TamacAdmin2024!`.
+5. **AP port security** — wireless clients share one switch port; use `maximum 10–50` + `violation restrict` on AP uplinks, not `maximum 1` ([log 10](docs/logs/10-ap-port-security-multi-client.md)).
 
 More troubleshooting: [docs/GROUP-REFERENCE.md § 11 & 15](docs/GROUP-REFERENCE.md).
 
@@ -267,6 +268,7 @@ Read in order to follow how the network was built:
 | 07 | [07-guest-acl-router-fix.md](docs/logs/07-guest-acl-router-fix.md) | **Final guest fix** — router subinterface |
 | 08 | [08-security-hardening.md](docs/logs/08-security-hardening.md) | SSH, port security, DHCP snooping, SERVER_ACCESS |
 | 09 | [09-dhcp-snooping-pt-workaround.md](docs/logs/09-dhcp-snooping-pt-workaround.md) | DHCP snooping disabled for PT compatibility |
+| 10 | [10-ap-port-security-multi-client.md](docs/logs/10-ap-port-security-multi-client.md) | AP port-security max raised for multi-laptop Wi‑Fi |
 
 ---
 

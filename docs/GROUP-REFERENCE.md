@@ -308,6 +308,7 @@ Screenshots from final verification are in [deliverables/03-screenshots/](delive
 | 07 | [07-guest-acl-router-fix.md](logs/07-guest-acl-router-fix.md) | **Final guest fix** — router subinterface approach |
 | 08 | [08-security-hardening.md](logs/08-security-hardening.md) | SSH, SERVER_ACCESS, port security, DHCP snooping |
 | 09 | [09-dhcp-snooping-pt-workaround.md](logs/09-dhcp-snooping-pt-workaround.md) | DHCP snooping PT workaround; deliverables capture |
+| 10 | [10-ap-port-security-multi-client.md](logs/10-ap-port-security-multi-client.md) | **AP port-security** — multi-laptop guest/staff Wi‑Fi fix |
 
 ---
 
@@ -339,6 +340,8 @@ Screenshots from final verification are in [deliverables/03-screenshots/](delive
 | DHCP snooping trust fails on Po | PT limitation | Trust Fa0/23–24 (IDF) or Gi0/1–2 + Fa0/2–7 (core) |
 | Port shut down (red) | Port security violation | `shutdown` / `no shutdown` on port; reconnect original device |
 | Core can't reach DNS after ACL | Deny before same-subnet permit | Recreate SERVER_ACCESS with 100.0/28 permit **first** |
+| AP link red / err-disabled | Port security MAC violation on AP port | Raise `maximum` (guest 50, staff 10), `violation restrict` — [log 10](logs/10-ap-port-security-multi-client.md) |
+| Guest DHCP fails, pool not full | AP port MAC limit hit | Same as above on IDF 1-A Fa0/17 |
 | No DHCP on PCs after snooping | Option 82 on untrusted Po | `no ip dhcp snooping` on core + IDFs — [log 09](logs/09-dhcp-snooping-pt-workaround.md) |
 | Router LAN .254 doesn't work | /28 only allows .1–.14 | Use **192.168.200.14** |
 
