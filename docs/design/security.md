@@ -94,6 +94,8 @@ Each IDF: `ip default-gateway 192.168.200.1`
 
 ## Port security (IDF access ports only — not Fa0/23–24)
 
+### Wired PC ports
+
 ```
 switchport port-security
 switchport port-security maximum 1
@@ -101,12 +103,32 @@ switchport port-security mac-address sticky
 switchport port-security violation shutdown
 ```
 
-| IDF | Ports |
+| IDF | PC ports |
 |---|---|
-| 1-A | Fa0/1–19 |
-| 1-B | Fa0/1–22 |
-| 2-A | Fa0/1–8, Fa0/15–21 |
-| 2-B | Fa0/1–17 |
+| 1-A | Fa0/1–16 (not AP ports 17–19) |
+| 1-B | Fa0/1–20 (not AP ports 21–22) |
+| 2-A | Fa0/1–8, Fa0/15–19 (not AP ports 20–21) |
+| 2-B | Fa0/1–15 (not AP port 16) |
+
+### AP uplink ports (wireless — multiple MACs per port)
+
+APs aggregate every wireless client onto one switch port. **Do not** use `maximum 1` on AP ports.
+
+| AP port | IDF | `maximum` | `violation` |
+|---|---|---|---|
+| Fa0/17 (Guest) | 1-A | **50** | **restrict** |
+| Fa0/18–19 (EXEC, FIN) | 1-A | 10 | restrict |
+| Fa0/21–22 (CS, OPS) | 1-B | 10 | restrict |
+| Fa0/20–21 (IT, HR) | 2-A | 10 | restrict |
+| Fa0/16 (MARK) | 2-B | 10 | restrict |
+
+```
+interface FastEthernet0/17
+ switchport port-security maximum 50
+ switchport port-security violation restrict
+```
+
+Full CLI + troubleshooting: [log 10](../logs/10-ap-port-security-multi-client.md)
 
 ---
 

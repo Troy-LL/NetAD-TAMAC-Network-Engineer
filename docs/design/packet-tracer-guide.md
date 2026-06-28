@@ -19,6 +19,7 @@
 | `vlan 10,20,30` | One `vlan X` per line |
 | Config from `>` prompt | `en` then `config t` |
 | ACL edit breaks order | `no ip access-list extended NAME` then recreate |
+| AP shuts down when 2nd laptop joins | Port security on AP port — `maximum 10–50`, `violation restrict` — [log 10](../logs/10-ap-port-security-multi-client.md) |
 | No serial port on 2911 | Add HWIC-2T, power cycle |
 
 ## NAT (edge router)
@@ -47,7 +48,7 @@ interface GigabitEthernet0/0
 - [ ] SSH to core and IDF from IT PC
 - [ ] Telnet rejected
 - [ ] EtherChannel survives one unplugged uplink
-- [ ] Port security violation on rogue MAC
+- [ ] Multiple guest/staff laptops on same AP — link stays up, DHCP works
 - [ ] DHCP snooping blocks rogue server
 
 ## Documentation

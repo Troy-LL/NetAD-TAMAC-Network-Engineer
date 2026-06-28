@@ -23,6 +23,20 @@ Staff laptops connect to **department-specific SSIDs** (`TAMAC-Corp-<dept>`) on 
 - Configure wireless on **AP Port 1** (Config tab)
 - **Do not** cable Port 1
 
+### AP switch port security (required for multiple laptops)
+
+Wireless clients share the AP uplink. On each AP port, raise port-security maximum — see [security.md](security.md) and [log 10](../logs/10-ap-port-security-multi-client.md).
+
+Guest AP (IDF 1-A Fa0/17) example:
+
+```text
+interface FastEthernet0/17
+ switchport port-security maximum 50
+ switchport port-security violation restrict
+```
+
+Staff APs: `maximum 10`, same `violation restrict`.
+
 ## Security (Packet Tracer GUI)
 
 | Setting | Guest AP | Corporate APs |
