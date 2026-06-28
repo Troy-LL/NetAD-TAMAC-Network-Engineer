@@ -15,6 +15,22 @@ Submission package for the Packet Tracer network project. All paths are relative
 | 3 | Screenshots (proof tests) | — | [03-screenshots/](03-screenshots/) |
 | 4 | IP addressing tables | [04-ip-addressing.md](04-ip-addressing.md) | [04-ip-addressing-screenshots/](04-ip-addressing-screenshots/) |
 | 5 | VLAN tables | [05-vlan-table.md](05-vlan-table.md) | [05-vlan-table-screenshots/](05-vlan-table-screenshots/) |
+| 6 | **Verification testing (sequential)** | [06-verification-testing/README.md](06-verification-testing/README.md) | [06-verification-testing/screenshots/](06-verification-testing/screenshots/) |
+
+---
+
+## 6. Verification testing (sequential — complete in order)
+
+Use this package for defense / rubric proof. **Each phase must pass before the next.**
+
+| Phase | Guide | Screenshots |
+|---|---|---|
+| 1 Connectivity | [01-connectivity-testing.md](06-verification-testing/01-connectivity-testing.md) | `screenshots/01-connectivity/` |
+| 2 Inter-VLAN | [02-inter-vlan-communication.md](06-verification-testing/02-inter-vlan-communication.md) | `screenshots/02-inter-vlan/` |
+| 3 Routing | [03-routing-verification.md](06-verification-testing/03-routing-verification.md) | `screenshots/03-routing/` |
+| 4 DHCP | [04-dhcp-verification.md](06-verification-testing/04-dhcp-verification.md) | `screenshots/04-dhcp/` |
+| 5 Security (ACL, SSH, port sec, snooping, auth) | [05-security-testing.md](06-verification-testing/05-security-testing.md) | `screenshots/05-security/` |
+| 6 Guest network | [06-guest-network-testing.md](06-verification-testing/06-guest-network-testing.md) | `screenshots/06-guest/` |
 
 ---
 
