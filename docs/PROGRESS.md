@@ -2,7 +2,7 @@
 
 > **Source of truth:** [`cisco.mdc`](../cisco.mdc) (index) · **Design details:** [`docs/design/`](design/) · **Session logs:** [`docs/logs/`](logs/)
 
-**Last updated:** 2025-06-29  
+**Last updated:** 2025-06-30  
 **Overall progress:** ~100% (verification testing phases 1–6 captured)
 
 ---
@@ -100,6 +100,7 @@ These differ from `cisco.mdc` on purpose based on Packet Tracer limits and proje
 | 08 | 2025-06-24 | [08-security-hardening.md](logs/08-security-hardening.md) | SSH, port security, DHCP snooping, SERVER_ACCESS |
 | 09 | 2025-06-25 | [09-dhcp-snooping-pt-workaround.md](logs/09-dhcp-snooping-pt-workaround.md) | DHCP snooping disabled for PT; deliverables screenshots |
 | 10 | 2025-06-29 | [10-ap-port-security-multi-client.md](logs/10-ap-port-security-multi-client.md) | AP port-security max raised; guest + staff multi-laptop fix |
+| 11 | 2025-06-30 | [11-port-security-hacker-pc-demo.md](logs/11-port-security-hacker-pc-demo.md) | Hacker PC wire-swap demo — err-disable + recovery |
 
 ---
 
@@ -124,7 +125,7 @@ All submission artifacts: [deliverables/README.md](deliverables/README.md)
 2. **Recapture stale screenshots** — [SCREENSHOT-REDO-CHECKLIST.md](deliverables/SCREENSHOT-REDO-CHECKLIST.md) (new PCs, AP port-security, Po2, guest bindings)
 3. Run [deliverables/06-verification-testing/](deliverables/06-verification-testing/) phases 1→6; replace shots listed in redo checklist
 4. Share [GROUP-REFERENCE.md](GROUP-REFERENCE.md) with groupmates for full context
-5. Optional demos: port-security violation on wired PC port, EtherChannel failover
+5. Optional demos: [hacker PC wire-swap](logs/11-port-security-hacker-pc-demo.md) on any wired port, EtherChannel failover
 
 ---
 

@@ -130,6 +130,17 @@ interface FastEthernet0/17
 
 Full CLI + troubleshooting: [log 10](../logs/10-ap-port-security-multi-client.md)
 
+### Hacker PC wire-swap demo (wired ports)
+
+Used in capstone defense to show **rogue device blocking**:
+
+1. Legitimate PC connected first → sticky MAC learned.
+2. Attacker unplugs that cable and connects a spare **`HACK-<dept>`** PC to the same switch port.
+3. Port goes **err-disabled** (link red) — violation `shutdown`.
+4. Reconnect original PC + `shutdown` / `no shutdown` on the switch port → link green, DHCP works.
+
+Step-by-step for every department: [log 11](../logs/11-port-security-hacker-pc-demo.md).
+
 ---
 
 ## DHCP snooping

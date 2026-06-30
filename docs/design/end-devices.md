@@ -42,6 +42,12 @@ Cable **Copper Straight-Through** → PC `FastEthernet0` → IDF port. All PCs u
 
 > If a PC name already exists (e.g. `PC-PT EXEC`), keep it on Fa0/1 and add `-2`/`-3` PCs on the next ports.
 
+### Hacker PCs (port-security demo only)
+
+Add one **unconnected** PC-PT per department you want to demo, labeled **`HACK-<dept>`** (e.g. `HACK-EXEC`, `HACK-IT`). **Do not cable them to the switch.** During the defense demo, unplug a legitimate PC’s cable and attach it to the hacker PC — port security should **err-disable** the switch port (red link). Reconnect the cable to the original PC and bounce the port (`shutdown` / `no shutdown`) to restore the link.
+
+Full steps: [log 11](../logs/11-port-security-hacker-pc-demo.md).
+
 ## Wireless summary
 
 | SSID | VLAN | Users | Doc |

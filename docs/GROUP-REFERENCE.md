@@ -289,7 +289,7 @@ Screenshots from final verification are in [deliverables/03-screenshots/](delive
 | 5 | Guest → DNS | Guest laptop | `ping 192.168.100.2` | Unreachable from 192.168.90.1 |
 | 6 | Guest isolation | Guest laptop | `ping 192.168.10.1` | Unreachable from 192.168.90.1 |
 | 7 | Guest internet | Guest laptop | `ping 10.0.0.1` | OK |
-| 8 | Port security | Swap PC on secured port | — | Port err-disabled |
+| 8 | Port security | Steal cable → **HACK-** PC on secured port | Reconnect original PC + port bounce | Port err-disabled, then green |
 | 9 | EtherChannel HA | Unplug one uplink cable | PCs still ping | OK |
 | 10 | DHCP snooping | CORE-SW | `show ip dhcp snooping` | Configured; may be disabled in PT — see [log 09](logs/09-dhcp-snooping-pt-workaround.md) |
 
@@ -309,8 +309,7 @@ Screenshots from final verification are in [deliverables/03-screenshots/](delive
 | 08 | [08-security-hardening.md](logs/08-security-hardening.md) | SSH, SERVER_ACCESS, port security, DHCP snooping |
 | 09 | [09-dhcp-snooping-pt-workaround.md](logs/09-dhcp-snooping-pt-workaround.md) | DHCP snooping PT workaround; deliverables capture |
 | 10 | [10-ap-port-security-multi-client.md](logs/10-ap-port-security-multi-client.md) | **AP port-security** — multi-laptop guest/staff Wi‑Fi fix |
-
----
+| 11 | [11-port-security-hacker-pc-demo.md](logs/11-port-security-hacker-pc-demo.md) | **Hacker PC wire-swap** — port err-disable + recovery |
 
 ## 14. Topic docs (when you need detail)
 
@@ -338,7 +337,7 @@ Screenshots from final verification are in [deliverables/03-screenshots/](delive
 | `show ip interface vlan X` ACL not set | PT SVI bug | Guest: use router subif; DNS: verify functional ping tests |
 | SSH invalid login on IDF | Password special char bug | Use `Tamac2024` or Config tab user |
 | DHCP snooping trust fails on Po | PT limitation | Trust Fa0/23–24 (IDF) or Gi0/1–2 + Fa0/2–7 (core) |
-| Port shut down (red) | Port security violation | `shutdown` / `no shutdown` on port; reconnect original device |
+| Port shut down (red) | Port security violation | `shutdown` / `no shutdown` on port; reconnect **original** PC — [log 11](logs/11-port-security-hacker-pc-demo.md) |
 | Core can't reach DNS after ACL | Deny before same-subnet permit | Recreate SERVER_ACCESS with 100.0/28 permit **first** |
 | AP link red / err-disabled | Port security MAC violation on AP port | Raise `maximum` (guest 50, staff 10), `violation restrict` — [log 10](logs/10-ap-port-security-multi-client.md) |
 | Guest DHCP fails, pool not full | AP port MAC limit hit | Same as above on IDF 1-A Fa0/17 |

@@ -156,19 +156,22 @@ show port-security interface FastEthernet0/1
 
 **Screenshot:** `11-idf1a-port-security-status.png`
 
-### Violation demo (optional but strong proof)
+### Violation demo — hacker PC wire swap (optional but strong proof)
 
-1. Note which PC is on **IDF 1-A Fa0/1** (PC-EXEC).
-2. Disconnect **PC-EXEC**, connect a **different PC** to Fa0/1.
-3. **Where:** **IDF 1-A** → **CLI**:
+Use a spare **`HACK-EXEC`** PC (not cabled to the switch until the attack step). Full script: [log 11](../../logs/11-port-security-hacker-pc-demo.md).
+
+1. Confirm **PC-EXEC** is green on **IDF 1-A Fa0/1** with DHCP (`192.168.10.x`).
+2. **Delete** the cable from PC-EXEC; run a new straight-through from **Fa0/1** → **HACK-EXEC**.
+3. **Expected:** Link turns **red**; port **err-disabled**.
+
+**Where:** **IDF 1-A** → **CLI**:
 
 ```
 show interfaces FastEthernet0/1 status
+show port-security interface FastEthernet0/1
 ```
 
-**Expected:** Port **err-disabled**.
-
-4. Restore: reconnect PC-EXEC, then on **IDF 1-A** CLI:
+4. **Recovery:** Delete hacker cable; reconnect **Fa0/1** → **PC-EXEC**. On **IDF 1-A** CLI:
 
 ```
 configure terminal
@@ -178,9 +181,11 @@ interface FastEthernet0/1
 end
 ```
 
-**Screenshot:** `12-port-security-violation.png` — err-disabled port or status output.
+5. Confirm PC-EXEC link **green** and `ping 192.168.10.1` works.
 
-> AP ports use higher `maximum` (guest 50, staff 10) — see [log 10](../../logs/10-ap-port-security-multi-client.md). Demo violation on a **wired PC port**, not an AP port.
+**Screenshot:** `12-port-security-violation.png` — err-disabled port, red link, or status output.
+
+> AP ports use higher `maximum` (guest 50, staff 10) — see [log 10](../../logs/10-ap-port-security-multi-client.md). Demo violation on a **wired PC port**, not an AP port. Repeat on any department using the table in log 11.
 
 ---
 

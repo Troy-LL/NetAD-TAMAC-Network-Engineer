@@ -43,6 +43,7 @@ Use this package for defense / rubric proof. **Each phase must pass before the n
 | [logical-topology-labeled.png](01-network-diagram/logical-topology-labeled.png) | Full labeled logical topology |
 | [logical-topology-unlabeled.png](01-network-diagram/logical-topology-unlabeled.png) | Before labels (archive) |
 | [LABELS.md](01-network-diagram/LABELS.md) | Copy-paste labels for Packet Tracer notes |
+| [logical-topology-explanation-script.md](logical-topology-explanation-script.md) | Spoken defense script — full logical topology walkthrough |
 
 ---
 

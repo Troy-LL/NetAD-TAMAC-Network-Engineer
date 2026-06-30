@@ -166,51 +166,68 @@ From **IT PC**: `ping 192.168.100.2` OK. From **Guest laptop**: should fail (gue
 
 **Do NOT** apply to **Fa0/23–24** or **Port-channel** uplinks.
 
-### IDF 1-A (Fa0/1–19 — PCs, APs)
+### IDF 1-A (Fa0/1–16 wired PCs · Fa0/17–19 APs)
 
 ```
 enable
 configure terminal
-interface range FastEthernet0/1 - 19
+interface range FastEthernet0/1 - 16
  switchport port-security
  switchport port-security maximum 1
  switchport port-security violation shutdown
  switchport port-security mac-address sticky
+interface FastEthernet0/17
+ switchport port-security maximum 50
+ switchport port-security violation restrict
+interface range FastEthernet0/18 - 19
+ switchport port-security maximum 10
+ switchport port-security violation restrict
 end
 ```
 
-### IDF 1-B (Fa0/1–22)
+### IDF 1-B (Fa0/1–14, Fa0/15–20 wired · Fa0/21–22 APs)
 
 ```
-interface range FastEthernet0/1 - 22
+interface range FastEthernet0/1 - 14, FastEthernet0/15 - 20
  switchport port-security
  switchport port-security maximum 1
  switchport port-security violation shutdown
  switchport port-security mac-address sticky
+interface range FastEthernet0/21 - 22
+ switchport port-security maximum 10
+ switchport port-security violation restrict
 end
 ```
 
-### IDF 2-A (Fa0/1–8, Fa0/15–21)
+### IDF 2-A (Fa0/1–8, Fa0/15–19 wired · Fa0/20–21 APs)
 
 ```
-interface range FastEthernet0/1 - 8, FastEthernet0/15 - 21
+interface range FastEthernet0/1 - 8, FastEthernet0/15 - 19
  switchport port-security
  switchport port-security maximum 1
  switchport port-security violation shutdown
  switchport port-security mac-address sticky
+interface range FastEthernet0/20 - 21
+ switchport port-security maximum 10
+ switchport port-security violation restrict
 end
 ```
 
-### IDF 2-B (Fa0/1–17)
+### IDF 2-B (Fa0/1–12, Fa0/13–15, Fa0/17 wired · Fa0/16 AP)
 
 ```
-interface range FastEthernet0/1 - 17
+interface range FastEthernet0/1 - 12, FastEthernet0/13 - 15, FastEthernet0/17
  switchport port-security
  switchport port-security maximum 1
  switchport port-security violation shutdown
  switchport port-security mac-address sticky
+interface FastEthernet0/16
+ switchport port-security maximum 10
+ switchport port-security violation restrict
 end
 ```
+
+Full paste blocks: [port-security-all-departments-paste.txt](../deliverables/02-device-configs/port-security-all-departments-paste.txt)
 
 ### Verify
 
@@ -223,10 +240,12 @@ show port-security interface FastEthernet0/1
 
 ### Port security violation demo
 
+Full hacker-PC wire-swap script (any department): [log 11](11-port-security-hacker-pc-demo.md).
+
 1. Note MAC on **PC-IT** port (IDF 2-A Fa0/1).
-2. Disconnect PC-IT, connect a **different PC** to same port.
-3. Port should go **err-disabled** (red).
-4. Fix: `shutdown` / `no shutdown` on that port, reconnect original PC.
+2. Disconnect PC-IT, connect a **different PC** (e.g. **HACK-IT**) to same port.
+3. Port should go **err-disabled** (red link).
+4. Fix: reconnect **PC-IT**, then `shutdown` / `no shutdown` on that port.
 
 ---
 

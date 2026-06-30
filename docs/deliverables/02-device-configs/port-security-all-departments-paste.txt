@@ -1,0 +1,113 @@
+! =============================================================================
+! TAMAC — Port security for ALL department wired PC ports (hacker-PC demo)
+! Paste each block into the matching switch CLI in Packet Tracer.
+! Order: IDF 1-A → 1-B → 2-A → 2-B → save .pkt
+!
+! Wired PC ports: maximum 1, sticky, violation shutdown
+! NOTE: 'errdisable recovery' is NOT supported on the 2960 in Packet Tracer.
+!       PT has no auto-recovery. After reconnecting the original PC, bounce the
+!       port once: interface Fa0/x -> shutdown -> no shutdown (see bottom).
+! AP ports:       maximum 10 or 50, violation restrict (do NOT use shutdown)
+! =============================================================================
+
+! -----------------------------------------------------------------------------
+! IDF 1-A — Executive (VLAN 10) Fa0/1-8 · Finance (VLAN 20) Fa0/9-16
+! -----------------------------------------------------------------------------
+enable
+configure terminal
+interface range FastEthernet0/1 - 16
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security mac-address sticky
+ switchport port-security violation shutdown
+interface FastEthernet0/17
+ switchport port-security
+ switchport port-security maximum 50
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+interface range FastEthernet0/18 - 19
+ switchport port-security
+ switchport port-security maximum 10
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+end
+! File → Save your .pkt after all four switches are done.
+
+! -----------------------------------------------------------------------------
+! IDF 1-B — Customer Service (VLAN 40) Fa0/1-14 · Operations (VLAN 30) Fa0/15-20
+! APs: Fa0/21 (CS), Fa0/22 (OPS) — NOT in wired range
+! -----------------------------------------------------------------------------
+enable
+configure terminal
+interface range FastEthernet0/1 - 14, FastEthernet0/15 - 20
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security mac-address sticky
+ switchport port-security violation shutdown
+interface range FastEthernet0/21 - 22
+ switchport port-security
+ switchport port-security maximum 10
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+end
+! File → Save your .pkt after all four switches are done.
+
+! -----------------------------------------------------------------------------
+! IDF 2-A — IT (VLAN 50) Fa0/1-8 · HR (VLAN 70) Fa0/15-19
+! APs: Fa0/20 (IT), Fa0/21 (HR) — Fa0/9-14 stay shutdown VLAN 999
+! -----------------------------------------------------------------------------
+enable
+configure terminal
+interface range FastEthernet0/1 - 8, FastEthernet0/15 - 19
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security mac-address sticky
+ switchport port-security violation shutdown
+interface range FastEthernet0/20 - 21
+ switchport port-security
+ switchport port-security maximum 10
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+end
+! File → Save your .pkt after all four switches are done.
+
+! -----------------------------------------------------------------------------
+! IDF 2-B — Marketing (VLAN 80) Fa0/1-12 · HR Training (VLAN 70) Fa0/13-15, Fa0/17
+! AP: Fa0/16 (MARK) only
+! -----------------------------------------------------------------------------
+enable
+configure terminal
+interface range FastEthernet0/1 - 12, FastEthernet0/13 - 15, FastEthernet0/17
+ switchport port-security
+ switchport port-security maximum 1
+ switchport port-security mac-address sticky
+ switchport port-security violation shutdown
+interface FastEthernet0/16
+ switchport port-security
+ switchport port-security maximum 10
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+end
+! File → Save your .pkt after all four switches are done.
+
+! -----------------------------------------------------------------------------
+! VERIFY (run on each IDF after paste + with simulation playing)
+! -----------------------------------------------------------------------------
+show port-security
+show port-security interface FastEthernet0/1
+
+! Expect wired PC port:
+!   Maximum MAC Addresses: 1
+!   Security Violation Mode: Shutdown
+!   Total MAC Addresses: 1  (after legitimate PC has been connected)
+
+! -----------------------------------------------------------------------------
+! RECOVERY (Packet Tracer has no auto-recovery) — run after reconnecting the
+! ORIGINAL PC. Change Fa0/1 to the port you tested.
+! -----------------------------------------------------------------------------
+enable
+configure terminal
+interface FastEthernet0/1
+ shutdown
+ no shutdown
+end
