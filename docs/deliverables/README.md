@@ -17,6 +17,8 @@ Submission package for the Packet Tracer network project. All paths are relative
 | 5 | VLAN tables | [05-vlan-table.md](05-vlan-table.md) | [05-vlan-table-screenshots/](05-vlan-table-screenshots/) |
 | 6 | **Verification testing (sequential)** | [06-verification-testing/README.md](06-verification-testing/README.md) | [06-verification-testing/screenshots/](06-verification-testing/screenshots/) |
 
+**Screenshot redo after lab changes:** [SCREENSHOT-REDO-CHECKLIST.md](SCREENSHOT-REDO-CHECKLIST.md)
+
 ---
 
 ## 6. Verification testing (sequential — complete in order)

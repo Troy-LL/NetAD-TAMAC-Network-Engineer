@@ -121,10 +121,10 @@ All submission artifacts: [deliverables/README.md](deliverables/README.md)
 ## Next Steps
 
 1. **File → Save** your `.pkt` after any lab changes
-2. Run [deliverables/06-verification-testing/](deliverables/06-verification-testing/) phases 1→6 in order; save screenshots per phase folder — **phases 1–6 complete**
-3. Legacy proof shots also in [deliverables/03-screenshots/](deliverables/03-screenshots/)
-3. Share [GROUP-REFERENCE.md](GROUP-REFERENCE.md) with groupmates for full context
-4. Optional demos: port-security violation, EtherChannel failover
+2. **Recapture stale screenshots** — [SCREENSHOT-REDO-CHECKLIST.md](deliverables/SCREENSHOT-REDO-CHECKLIST.md) (new PCs, AP port-security, Po2, guest bindings)
+3. Run [deliverables/06-verification-testing/](deliverables/06-verification-testing/) phases 1→6; replace shots listed in redo checklist
+4. Share [GROUP-REFERENCE.md](GROUP-REFERENCE.md) with groupmates for full context
+5. Optional demos: port-security violation on wired PC port, EtherChannel failover
 
 ---
 
